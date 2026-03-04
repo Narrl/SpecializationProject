@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f03c134b9a3d544ba89583f5cb746c9, type: 3}
+  m_Name: Excavator
+  m_EditorClassIdentifier: Assembly-CSharp::BuildingData
+  <Name>k__BackingField: Excavator
+  <Cost>k__BackingField: 1
+  <RequiredPlacedOnResource>k__BackingField: 1
+  <Model>k__BackingField: {fileID: 5903182614860497082, guid: 89731f354e342354d909f57da91dff1f, type: 3}
+  <LogicPrefab>k__BackingField: {fileID: 3569205781959953368, guid: 5eaf8cd5cb2c8134588f0487f8221600, type: 3}
