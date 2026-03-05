@@ -27,8 +27,7 @@ public class ResourceContainer
 
     public int GetAmount(ResourceType type)
     {
-        int value;
-        return m_amounts.TryGetValue(type, out value) ? value : 0;
+        return m_amounts.TryGetValue(type, out int value) ? value : 0;
     }
 
     public void Add(ResourceType type, int amount)
@@ -40,10 +39,8 @@ public class ResourceContainer
     public bool TryRemove(ResourceType type, int amount)
     {
         if (amount <= 0) return true;
-
         int current = GetAmount(type);
         if (current < amount) return false;
-
         m_amounts[type] = current - amount;
         return true;
     }

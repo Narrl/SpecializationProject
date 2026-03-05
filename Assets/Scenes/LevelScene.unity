@@ -507,6 +507,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuildingSystem
   m_excavatorData: {fileID: 11400000, guid: 00135838c18ed594499c7c46a95944ea, type: 2}
+  m_processorData: {fileID: 11400000, guid: 10d17df8990bb314cb1bd51f52bac58e, type: 2}
+  m_conveyorData: {fileID: 11400000, guid: d3196ea796b06c545bddfe75a818916e, type: 2}
   m_previewPrefab: {fileID: 6569980373515371615, guid: 3a6c7f284ef610349b254853d961b3c0, type: 3}
   m_buildingPrefab: {fileID: 45827664234341505, guid: c5034365339648645876081e8e2d2846, type: 3}
   m_grid: {fileID: 1287475366}
@@ -775,9 +777,19 @@ MonoBehaviour:
     Type: 1
   - Position: {x: 52, y: 51}
     Type: 1
+  - Position: {x: 57, y: 57}
+    Type: 2
+  - Position: {x: 59, y: 59}
+    Type: 2
+  - Position: {x: 57, y: 58}
+    Type: 2
+  - Position: {x: 57, y: 59}
+    Type: 2
   m_resourceVisuals:
   - Type: 1
     VisualPrefab: {fileID: 7395626052189986127, guid: a68cf400c6eaa7445a36b93fe4eeac62, type: 3}
+  - Type: 2
+    VisualPrefab: {fileID: 7395626052189986127, guid: 557e7bb90d47f984faf531ece01b5d4b, type: 3}
 --- !u!1 &1364730118
 GameObject:
   m_ObjectHideFlags: 0

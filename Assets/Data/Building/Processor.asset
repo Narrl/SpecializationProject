@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8f03c134b9a3d544ba89583f5cb746c9, type: 3}
-  m_Name: Excavator
+  m_Name: Processor
   m_EditorClassIdentifier: Assembly-CSharp::BuildingData
-  <Name>k__BackingField: Excavator
+  <Name>k__BackingField: Processor
   <Cost>k__BackingField: 1
-  <RequiredPlacedOnResources>k__BackingField: 0100000002000000
-  <Model>k__BackingField: {fileID: 5903182614860497082, guid: 89731f354e342354d909f57da91dff1f, type: 3}
-  <LogicPrefab>k__BackingField: {fileID: 3569205781959953368, guid: 5eaf8cd5cb2c8134588f0487f8221600, type: 3}
+  <RequiredPlacedOnResources>k__BackingField: 00000000
+  <Model>k__BackingField: {fileID: 5903182614860497082, guid: ceccd915c11091042bae29baa1f49303, type: 3}
+  <LogicPrefab>k__BackingField: {fileID: 2608361402132888722, guid: 2c58d431beab3b249bb3352b9cb91db4, type: 3}

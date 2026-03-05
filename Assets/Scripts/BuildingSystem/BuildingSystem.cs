@@ -6,11 +6,15 @@ public class BuildingSystem : MonoBehaviour
     public const float CellSize = 1f;
 
     [SerializeField] private BuildingData m_excavatorData;
+    [SerializeField] private BuildingData m_processorData;
+    [SerializeField] private BuildingData m_conveyorData;
     [SerializeField] private BuildingPreview m_previewPrefab;
     [SerializeField] private Building m_buildingPrefab;
     [SerializeField] private BuildingGrid m_grid;
 
     public BuildingData ExcavatorData => m_excavatorData;
+    public BuildingData ProcessorData => m_processorData;
+    public BuildingData ConveyorData => m_conveyorData;
     public BuildingGrid Grid => m_grid;
 
     public Vector3 GetMouseWorldPosition()
@@ -40,7 +44,7 @@ public class BuildingSystem : MonoBehaviour
     public bool TrySnapAndValidate(BuildingPreview preview, out List<Vector3> buildPositions)
     {
         buildPositions = preview.Model.GetAllBuildingPositions();
-        bool bCanBuild = m_grid.CanPlaceBuilding(preview.Data.RequiredPlacedOnResource, buildPositions);
+        bool bCanBuild = m_grid.CanPlaceBuilding(preview.Data.RequiredPlacedOnResources, buildPositions);
 
         if (bCanBuild)
         {

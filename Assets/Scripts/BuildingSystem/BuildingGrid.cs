@@ -31,17 +31,12 @@ public class BuildingGrid : MonoBehaviour
     {
         m_grid = new BuildingGridCell[m_width, m_height];
         for (int x = 0; x < m_width; x++)
-        {
             for (int y = 0; y < m_height; y++)
-            {
                 m_grid[x, y] = new BuildingGridCell();
-            }
-        }
 
         foreach (var entry in m_resourceNodes)
         {
             if (!IsWithinBounds(entry.Position)) continue;
-
             m_grid[entry.Position.x, entry.Position.y].SetResourceType(entry.Type);
             SpawnResourceVisual(entry.Type, entry.Position);
         }
@@ -53,8 +48,7 @@ public class BuildingGrid : MonoBehaviour
         {
             if (visual.Type == type && visual.VisualPrefab != null)
             {
-                Vector3 worldPos = GridToWorldPosition(gridPos);
-                Instantiate(visual.VisualPrefab, worldPos, Quaternion.identity, transform);
+                Instantiate(visual.VisualPrefab, GridToWorldPosition(gridPos), Quaternion.identity, transform);
                 return;
             }
         }
@@ -69,7 +63,16 @@ public class BuildingGrid : MonoBehaviour
         }
     }
 
-    public bool CanPlaceBuilding(ResourceType requiredResourceType, List<Vector3> allBuildingPositions)
+    // Finds a component of type T on the building at the given grid position
+    public T GetLogicAt<T>(Vector2Int gridPos) where T : class
+    {
+        if (!IsWithinBounds(gridPos)) return null;
+        Building building = m_grid[gridPos.x, gridPos.y].Building;
+        if (building == null) return null;
+        return building.GetComponentInChildren<T>();
+    }
+
+    public bool CanPlaceBuilding(ResourceType[] requiredResourceTypes, List<Vector3> allBuildingPositions)
     {
         int validPlacementCount = 0;
 
@@ -77,18 +80,16 @@ public class BuildingGrid : MonoBehaviour
         {
             var gridPos = WorldToGridPosition(position);
             if (!IsWithinBounds(gridPos) || !m_grid[gridPos.x, gridPos.y].IsEmpty())
-            {
                 return false;
-            }
-            if (m_grid[gridPos.x, gridPos.y].HasResource(requiredResourceType))
+
+            foreach (var resource in requiredResourceTypes)
             {
-                validPlacementCount++;
+                if (m_grid[gridPos.x, gridPos.y].HasResource(resource))
+                    validPlacementCount++; 
             }
         }
 
-        // If no resource is required, any empty placement is valid
-        if (requiredResourceType == ResourceType.None) return true;
-
+        if (requiredResourceTypes[0] == ResourceType.None) return true;
         return validPlacementCount > 0;
     }
 
@@ -101,7 +102,7 @@ public class BuildingGrid : MonoBehaviour
         return new Vector3(centerX, 0, centerZ);
     }
 
-    private bool IsWithinBounds(Vector2Int gridPos)
+    public bool IsWithinBounds(Vector2Int gridPos)
     {
         return gridPos.x >= 0 && gridPos.x < m_width && gridPos.y >= 0 && gridPos.y < m_height;
     }
@@ -146,22 +147,13 @@ public class BuildingGridCell
     private Building m_building;
     private ResourceType m_resourceType = ResourceType.None;
 
+    public Building Building => m_building;
     public ResourceType ResourceType => m_resourceType;
 
-    public void SetBuilding(Building building)
-    {
-        m_building = building;
-    }
+    public void SetBuilding(Building building) => m_building = building;
+    public void SetResourceType(ResourceType type) => m_resourceType = type;
 
-    public void SetResourceType(ResourceType resourceType)
-    {
-        m_resourceType = resourceType;
-    }
-
-    public bool IsEmpty()
-    {
-        return m_building == null;
-    }
+    public bool IsEmpty() => m_building == null;
 
     public bool HasResource(ResourceType type)
     {

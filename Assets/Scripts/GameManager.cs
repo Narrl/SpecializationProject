@@ -27,6 +27,14 @@ public class GameManager : ActionStack.ActionBehavior
         {
             ActionStack.Main.PushAction(new PlaceBuildingAction(m_buildingSystem, m_buildingSystem.ExcavatorData));
         }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            ActionStack.Main.PushAction(new PlaceBuildingAction(m_buildingSystem, m_buildingSystem.ProcessorData));
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            ActionStack.Main.PushAction(new PlaceBuildingAction(m_buildingSystem, m_buildingSystem.ConveyorData));
+        }
     }
 
     public override bool IsDone()
