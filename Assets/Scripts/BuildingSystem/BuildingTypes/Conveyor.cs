@@ -23,21 +23,45 @@ public class Conveyor : BuildingLogic, IResourceInput
     {
         if (!m_item.HasValue) return;
 
-        if (TryPushForward(m_item.Value))
+        if (TryPushAll(m_item.Value))
             m_item = null;
     }
 
-    // IResourceInput — upstream buildings push into us
-    public bool TryDeposit(ResourceType type)
+    // IResourceInput — checks that targetCell and fromDirection match one of our input shape units
+    public bool TryDeposit(ResourceType type, Vector2Int targetCell, GridDirection fromDirection)
     {
         if (m_item.HasValue) return false;
-        m_item = type;
-        return true;
+
+        foreach (var unit in m_building.Model.ShapeUnits)
+        {
+            if (!unit.HasInputs) continue;
+
+            Vector2Int unitGridPos = m_grid.WorldToGridPosition(unit.transform.position);
+            if (unitGridPos != targetCell) continue;
+            if (!unit.AcceptsFrom(fromDirection)) continue;
+
+            m_item = type;
+            return true;
+        }
+
+        return false;
     }
 
     // Used by FactoryManager to determine sort order
     public Conveyor GetForwardConveyor()
     {
-        return m_grid.GetLogicAt<Conveyor>(m_gridPos + m_forward);
+        foreach (var unit in m_building.Model.ShapeUnits)
+        {
+            if (!unit.HasOutputs) continue;
+
+            Vector2Int unitGridPos = m_grid.WorldToGridPosition(unit.transform.position);
+            foreach (var dir in unit.OutputDirections)
+            {
+                Conveyor next = m_grid.GetLogicAt<Conveyor>(unitGridPos + dir.ToVector());
+                if (next != null) return next;
+            }
+        }
+
+        return null;
     }
 }

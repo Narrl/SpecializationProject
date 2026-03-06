@@ -18,7 +18,6 @@ public class Processor : BuildingLogic, IResourceInput
 
     public override void FactoryTick(float deltaTime)
     {
-        // Try to process
         bool bHasA = m_input.GetAmount(m_inputA) >= m_inputAAmount;
         bool bHasB = m_input.GetAmount(m_inputB) >= m_inputBAmount;
 
@@ -29,19 +28,30 @@ public class Processor : BuildingLogic, IResourceInput
             m_outputBuffer += m_outputAmount;
         }
 
-        // Push output forward one at a time
         while (m_outputBuffer > 0)
         {
-            if (!TryPushForward(m_outputType)) break;
+            if (!TryPushAll(m_outputType)) break;
             m_outputBuffer--;
         }
     }
 
-    // IResourceInput — conveyors push resources into us
-    public bool TryDeposit(ResourceType type)
+    // IResourceInput — checks that targetCell and fromDirection match one of our input shape units
+    public bool TryDeposit(ResourceType type, Vector2Int targetCell, GridDirection fromDirection)
     {
         if (type != m_inputA && type != m_inputB) return false;
-        m_input.Add(type, 1);
-        return true;
+
+        foreach (var unit in m_building.Model.ShapeUnits)
+        {
+            if (!unit.HasInputs) continue;
+
+            Vector2Int unitGridPos = m_grid.WorldToGridPosition(unit.transform.position);
+            if (unitGridPos != targetCell) continue;
+            if (!unit.AcceptsFrom(fromDirection)) continue;
+
+            m_input.Add(type, 1);
+            return true;
+        }
+
+        return false;
     }
 }

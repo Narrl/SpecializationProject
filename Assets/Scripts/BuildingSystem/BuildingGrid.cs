@@ -56,14 +56,33 @@ public class BuildingGrid : MonoBehaviour
 
     public void SetBuilding(Building building, List<Vector3> allBuildingPositions)
     {
+        List<Vector2Int> occupiedCells = new List<Vector2Int>();
+
         foreach (var position in allBuildingPositions)
         {
             var gridPos = WorldToGridPosition(position);
             m_grid[gridPos.x, gridPos.y].SetBuilding(building);
+            occupiedCells.Add(gridPos);
+        }
+
+        building.SetOccupiedCells(occupiedCells);
+    }
+
+    public void ClearBuilding(Building building)
+    {
+        foreach (var cell in building.OccupiedCells)
+        {
+            if (IsWithinBounds(cell))
+                m_grid[cell.x, cell.y].SetBuilding(null);
         }
     }
 
-    // Finds a component of type T on the building at the given grid position
+    public Building GetBuildingAt(Vector2Int gridPos)
+    {
+        if (!IsWithinBounds(gridPos)) return null;
+        return m_grid[gridPos.x, gridPos.y].Building;
+    }
+
     public T GetLogicAt<T>(Vector2Int gridPos) where T : class
     {
         if (!IsWithinBounds(gridPos)) return null;
@@ -85,7 +104,7 @@ public class BuildingGrid : MonoBehaviour
             foreach (var resource in requiredResourceTypes)
             {
                 if (m_grid[gridPos.x, gridPos.y].HasResource(resource))
-                    validPlacementCount++; 
+                    validPlacementCount++;
             }
         }
 
@@ -130,13 +149,13 @@ public class BuildingGrid : MonoBehaviour
         for (int x = 0; x <= m_width; x++)
         {
             Vector3 start = origin + new Vector3(x * BuildingSystem.CellSize, 0.01f, 0);
-            Vector3 end = origin + new Vector3(x * BuildingSystem.CellSize, 0.01f, m_height * BuildingSystem.CellSize);
+            Vector3 end   = origin + new Vector3(x * BuildingSystem.CellSize, 0.01f, m_height * BuildingSystem.CellSize);
             Gizmos.DrawLine(start, end);
         }
         for (int y = 0; y <= m_height; y++)
         {
             Vector3 start = origin + new Vector3(0, 0.01f, y * BuildingSystem.CellSize);
-            Vector3 end = origin + new Vector3(m_width * BuildingSystem.CellSize, 0.01f, y * BuildingSystem.CellSize);
+            Vector3 end   = origin + new Vector3(m_width * BuildingSystem.CellSize, 0.01f, y * BuildingSystem.CellSize);
             Gizmos.DrawLine(start, end);
         }
     }

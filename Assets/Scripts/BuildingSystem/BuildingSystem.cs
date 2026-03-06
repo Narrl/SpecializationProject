@@ -22,10 +22,23 @@ public class BuildingSystem : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         Plane groundPlane = new Plane(Vector3.up, Vector3.zero);
         if (groundPlane.Raycast(ray, out float distance))
-        {
             return ray.GetPoint(distance);
-        }
         return Vector3.zero;
+    }
+
+    // Returns the building on whichever grid cell the mouse is hovering, or null
+    public Building GetBuildingAtMouse()
+    {
+        Vector3 mouseWorld = GetMouseWorldPosition();
+        Vector2Int gridPos = m_grid.WorldToGridPosition(mouseWorld);
+        return m_grid.GetBuildingAt(gridPos);
+    }
+
+    public void DemolishBuilding(Building building)
+    {
+        if (building == null) return;
+        m_grid.ClearBuilding(building);
+        Destroy(building.gameObject);
     }
 
     public BuildingPreview CreatePreview(BuildingData data, Vector3 position)

@@ -785,6 +785,12 @@ MonoBehaviour:
     Type: 2
   - Position: {x: 57, y: 59}
     Type: 2
+  - Position: {x: 51, y: 52}
+    Type: 2
+  - Position: {x: 52, y: 52}
+    Type: 2
+  - Position: {x: 53, y: 52}
+    Type: 2
   m_resourceVisuals:
   - Type: 1
     VisualPrefab: {fileID: 7395626052189986127, guid: a68cf400c6eaa7445a36b93fe4eeac62, type: 3}

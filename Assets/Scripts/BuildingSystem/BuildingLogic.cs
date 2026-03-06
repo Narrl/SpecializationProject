@@ -5,14 +5,12 @@ public abstract class BuildingLogic : MonoBehaviour, IFactoryTickable
     protected Building m_building;
     protected BuildingGrid m_grid;
     protected Vector2Int m_gridPos;
-    protected Vector2Int m_forward;
 
     public virtual void Setup(Building building, BuildingGrid grid)
     {
         m_building = building;
         m_grid = grid;
         m_gridPos = grid.WorldToGridPosition(building.transform.position);
-        m_forward = RotationToDirection(building.Model.Rotation);
 
         FactoryManager.Instance.Register(this);
     }
@@ -24,23 +22,27 @@ public abstract class BuildingLogic : MonoBehaviour, IFactoryTickable
 
     public abstract void FactoryTick(float deltaTime);
 
-    // Tries to push one resource to whatever IResourceInput is directly ahead
-    protected bool TryPushForward(ResourceType type)
+    // Iterates all output shape units and tries to push one resource in each output direction.
+    // Returns true if at least one push succeeded.
+    protected bool TryPushAll(ResourceType type)
     {
-        IResourceInput next = m_grid.GetLogicAt<IResourceInput>(m_gridPos + m_forward);
-        if (next != null)
-            return next.TryDeposit(type);
-        return false;
-    }
+        bool bAnyPushed = false;
 
-    // Model's X axis is forward
-    private static Vector2Int RotationToDirection(float rotation)
-    {
-        rotation = ((rotation % 360) + 360) % 360;
+        foreach (var unit in m_building.Model.ShapeUnits)
+        {
+            if (!unit.HasOutputs) continue;
 
-        if (rotation < 45 || rotation >= 315) return new Vector2Int(1, 0);   // east  (+X)
-        if (rotation < 135) return new Vector2Int(0, -1);  // south (-Z)
-        if (rotation < 225) return new Vector2Int(-1, 0);  // west  (-X)
-        return new Vector2Int(0, 1);   // north (+Z)
+            Vector2Int unitGridPos = m_grid.WorldToGridPosition(unit.transform.position);
+
+            foreach (var dir in unit.OutputDirections)
+            {
+                Vector2Int targetPos = unitGridPos + dir.ToVector();
+                IResourceInput input = m_grid.GetLogicAt<IResourceInput>(targetPos);
+                if (input != null && input.TryDeposit(type, targetPos, dir.Opposite()))
+                    bAnyPushed = true;
+            }
+        }
+
+        return bAnyPushed;
     }
 }
