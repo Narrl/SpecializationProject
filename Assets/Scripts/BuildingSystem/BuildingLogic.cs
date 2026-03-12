@@ -39,7 +39,9 @@ public abstract class BuildingLogic : MonoBehaviour, IFactoryTickable
                 Vector2Int targetPos = unitGridPos + dir.ToVector();
                 IResourceInput input = m_grid.GetLogicAt<IResourceInput>(targetPos);
                 if (input != null && input.TryDeposit(type, targetPos, dir.Opposite()))
+                {
                     bAnyPushed = true;
+                }
             }
         }
 

@@ -5,16 +5,12 @@ public class BuildingSystem : MonoBehaviour
 {
     public const float CellSize = 1f;
 
-    [SerializeField] private BuildingData m_excavatorData;
-    [SerializeField] private BuildingData m_processorData;
-    [SerializeField] private BuildingData m_conveyorData;
+    [SerializeField] private BuildingData[] m_buildingDatas;
     [SerializeField] private BuildingPreview m_previewPrefab;
     [SerializeField] private Building m_buildingPrefab;
     [SerializeField] private BuildingGrid m_grid;
 
-    public BuildingData ExcavatorData => m_excavatorData;
-    public BuildingData ProcessorData => m_processorData;
-    public BuildingData ConveyorData => m_conveyorData;
+    public BuildingData[] BuildingDatas => m_buildingDatas;
     public BuildingGrid Grid => m_grid;
 
     public Vector3 GetMouseWorldPosition()
@@ -76,8 +72,8 @@ public class BuildingSystem : MonoBehaviour
     public void PlaceFromPreview(BuildingPreview preview, List<Vector3> buildPositions)
     {
         Building building = Instantiate(m_buildingPrefab, preview.transform.position, Quaternion.identity);
-        building.Setup(preview.Data, preview.Model.Rotation, m_grid);
         m_grid.SetBuilding(building, buildPositions);
+        building.Setup(preview.Data, preview.Model.Rotation, m_grid);
         Destroy(preview.gameObject);
     }
 }

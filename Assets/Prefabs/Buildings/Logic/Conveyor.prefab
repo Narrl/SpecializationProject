@@ -44,3 +44,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f895aef7450b92f46862b19bd6dcf997, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Conveyor
+  m_itemVisuals:
+  - Type: 1
+    VisualPrefab: {fileID: 6056018742731766678, guid: 8b5930505cb33514f97ed983a156d6ad, type: 3}
+  - Type: 2
+    VisualPrefab: {fileID: 3816364889964725901, guid: e51cf50fe26fb4440964fc029333d4df, type: 3}
+  - Type: 3
+    VisualPrefab: {fileID: 8913482601486508382, guid: f0d16a4b549cc2f4baa9f4c8cb1d7a99, type: 3}
+  - Type: 4
+    VisualPrefab: {fileID: 4330175073486857574, guid: d76ee76545dd0ce4c94752e34f187d9e, type: 3}
+  - Type: 5
+    VisualPrefab: {fileID: 4083671235985369257, guid: 55e6745530396674a9e49faeef632edf, type: 3}
+  - Type: 6
+    VisualPrefab: {fileID: 5854963796373439478, guid: 3cf54dfa453331240a7f9627cae48f86, type: 3}
+  - Type: 7
+    VisualPrefab: {fileID: 2809518865285620589, guid: 9e48056f6766102498807540b6a3398a, type: 3}
+  - Type: 8
+    VisualPrefab: {fileID: 3424891714741898233, guid: 6f3136e7253ada6498a8bbc556cc9e50, type: 3}

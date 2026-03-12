@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f03c134b9a3d544ba89583f5cb746c9, type: 3}
+  m_Name: Furnace
+  m_EditorClassIdentifier: Assembly-CSharp::BuildingData
+  <Name>k__BackingField: Furnace
+  <Cost>k__BackingField: 1
+  <RequiredPlacedOnResources>k__BackingField: 00000000
+  <Model>k__BackingField: {fileID: 5903182614860497082, guid: a624964ff5ad1134b9461c996211436d, type: 3}
+  <LogicPrefab>k__BackingField: {fileID: 2608361402132888722, guid: efa44f75b0cbfee4bb36a78b4c0b5f9e, type: 3}

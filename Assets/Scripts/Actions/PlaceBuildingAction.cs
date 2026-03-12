@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlaceBuildingAction : ActionStack.Action
 {
-    private readonly BuildingSystem m_system;
+    private readonly BuildingSystem m_buildingSystem;
     private readonly BuildingData m_data;
 
     private BuildingPreview m_preview;
@@ -12,14 +12,14 @@ public class PlaceBuildingAction : ActionStack.Action
 
     public PlaceBuildingAction(BuildingSystem system, BuildingData data)
     {
-        m_system = system;
+        m_buildingSystem = system;
         m_data = data;
     }
 
     public override void OnBegin(bool bFirstTime)
     {
-        Vector3 mousePos = m_system.GetMouseWorldPosition();
-        m_preview = m_system.CreatePreview(m_data, mousePos);
+        Vector3 mousePos = m_buildingSystem.GetMouseWorldPosition();
+        m_preview = m_buildingSystem.CreatePreview(m_data, mousePos);
     }
 
     public override void OnUpdate()
@@ -33,7 +33,7 @@ public class PlaceBuildingAction : ActionStack.Action
         // Cancel
         if (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1))
         {
-            m_system.CancelPreview(m_preview);
+            m_buildingSystem.CancelPreview(m_preview);
             m_preview = null;
             m_bIsDone = true;
             return;
@@ -45,15 +45,15 @@ public class PlaceBuildingAction : ActionStack.Action
             m_preview.Rotate(90);
         }
 
-        Vector3 mousePos = m_system.GetMouseWorldPosition();
+        Vector3 mousePos = m_buildingSystem.GetMouseWorldPosition();
         m_preview.transform.position = mousePos;
 
         List<Vector3> buildPositions;
-        bool bCanBuild = m_system.TrySnapAndValidate(m_preview, out buildPositions);
+        bool bCanBuild = m_buildingSystem.TrySnapAndValidate(m_preview, out buildPositions);
 
         if (bCanBuild && Input.GetMouseButtonDown(0))
         {
-            m_system.PlaceFromPreview(m_preview, buildPositions);
+            m_buildingSystem.PlaceFromPreview(m_preview, buildPositions);
             m_preview = null;
             m_bIsDone = true;
         }
@@ -63,7 +63,7 @@ public class PlaceBuildingAction : ActionStack.Action
     {
         if (m_preview != null)
         {
-            m_system.CancelPreview(m_preview);
+            m_buildingSystem.CancelPreview(m_preview);
             m_preview = null;
         }
     }

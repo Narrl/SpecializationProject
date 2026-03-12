@@ -1,36 +1,59 @@
+using Mono.Cecil;
 using UnityEngine;
 
-public class Processor : BuildingLogic, IResourceInput
+public class Processor : BuildingLogic, IResourceInput, IRecipeHolder
 {
-    [SerializeField] private ResourceType m_inputA;
-    [SerializeField] private int m_inputAAmount = 1;
+    [SerializeField] private RecipeData[] m_availableRecipes;
 
-    [SerializeField] private ResourceType m_inputB;
-    [SerializeField] private int m_inputBAmount = 1;
+    //[SerializeField] private ResourceStruct[] m_inputStructs;
 
-    [SerializeField] private ResourceType m_outputType;
-    [SerializeField] private int m_outputAmount = 1;
+    //[SerializeField] private ResourceType m_outputType;
+    //[SerializeField] private int m_outputAmount = 1;
 
-    [SerializeField] private int m_maxBuffer = 10;
+    [SerializeField] private int m_maxOutputBuffer = 10;
 
     private ResourceContainer m_input = new ResourceContainer();
     private int m_outputBuffer = 0;
 
+    public RecipeData CurrentRecipe { get; private set; }
+    public RecipeData[] AvailableRecipes => m_availableRecipes;
+
+    public override void Setup(Building building, BuildingGrid grid)
+    {
+        base.Setup(building, grid);
+        
+        if (m_availableRecipes.Length > 0)
+            CurrentRecipe = m_availableRecipes[0];
+    }
+
+    public void SetRecipe(RecipeData recipe)
+    {
+        CurrentRecipe = recipe;
+    }
+
     public override void FactoryTick(float deltaTime)
     {
-        bool bHasA = m_input.GetAmount(m_inputA) >= m_inputAAmount;
-        bool bHasB = m_input.GetAmount(m_inputB) >= m_inputBAmount;
+        bool hasInputs = true;
 
-        if (bHasA && bHasB && m_outputBuffer < m_maxBuffer)
+        foreach (var inputStruct in CurrentRecipe.Inputs)
         {
-            m_input.TryRemove(m_inputA, m_inputAAmount);
-            m_input.TryRemove(m_inputB, m_inputBAmount);
-            m_outputBuffer += m_outputAmount;
+            if (m_input.GetAmount(inputStruct.ResourceType) < inputStruct.Amount)
+                hasInputs = false;
+        }
+
+        if (hasInputs && m_outputBuffer < m_maxOutputBuffer)
+        {
+            foreach (var inputStruct in CurrentRecipe.Inputs)
+            {
+                m_input.TryRemove(inputStruct.ResourceType, inputStruct.Amount);
+            }
+
+            m_outputBuffer += CurrentRecipe.Output.Amount;
         }
 
         while (m_outputBuffer > 0)
         {
-            if (!TryPushAll(m_outputType)) break;
+            if (!TryPushAll(CurrentRecipe.Output.ResourceType)) break;
             m_outputBuffer--;
         }
     }
@@ -38,7 +61,14 @@ public class Processor : BuildingLogic, IResourceInput
     // IResourceInput — checks that targetCell and fromDirection match one of our input shape units
     public bool TryDeposit(ResourceType type, Vector2Int targetCell, GridDirection fromDirection)
     {
-        if (type != m_inputA && type != m_inputB) return false;
+        bool isValidType = false;
+
+        foreach (var inputStruct in CurrentRecipe.Inputs)
+        {
+            if (type == inputStruct.ResourceType) isValidType = true;
+        }
+
+        if (!isValidType) return false;
 
         foreach (var unit in m_building.Model.ShapeUnits)
         {

@@ -83,6 +83,12 @@ public class BuildingGrid : MonoBehaviour
         return m_grid[gridPos.x, gridPos.y].Building;
     }
 
+    public ResourceType GetResourceAt(Vector2Int gridPos)
+    {
+        if (!IsWithinBounds(gridPos)) return ResourceType.None;
+        return m_grid[gridPos.x, gridPos.y].ResourceType;
+    }
+
     public T GetLogicAt<T>(Vector2Int gridPos) where T : class
     {
         if (!IsWithinBounds(gridPos)) return null;

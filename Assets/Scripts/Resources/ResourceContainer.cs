@@ -3,20 +3,25 @@ using System.Collections.Generic;
 public enum ResourceType
 {
     None,
-    Stone,
+    CopperOre,
     IronOre,
-    IronIngot
+    CopperIngot,
+    IronIngot,
+    CopperTube,
+    IronPlate,
+    CopperWire,
+    SmallCircuit
 }
 
 [System.Serializable]
-public struct ResourceStack
+public struct ResourceStruct
 {
-    public ResourceType Type;
+    public ResourceType ResourceType;
     public int Amount;
 
-    public ResourceStack(ResourceType type, int amount)
+    public ResourceStruct(ResourceType type, int amount)
     {
-        Type = type;
+        ResourceType = type;
         Amount = amount;
     }
 }

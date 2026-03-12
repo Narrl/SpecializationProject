@@ -91,7 +91,7 @@ public class FactoryManager : MonoBehaviour
         m_accumulator += Time.deltaTime;
         float tickInterval = 1.0f / m_tickRate;
 
-        while (m_accumulator >= tickInterval)
+        if (m_accumulator >= tickInterval)
         {
             // Regular buildings first (excavators, processors)
             for (int i = 0; i < m_tickables.Count; i++)

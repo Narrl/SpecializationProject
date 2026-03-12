@@ -3,14 +3,14 @@ using UnityEngine;
 
 public class DemolishAction : ActionStack.Action
 {
-    private readonly BuildingSystem m_system;
+    private readonly BuildingSystem m_buildingSystem;
     private bool m_bIsDone;
 
     private Building m_hoveredBuilding;
 
     public DemolishAction(BuildingSystem system)
     {
-        m_system = system;
+        m_buildingSystem = system;
     }
 
     public override void OnBegin(bool bFirstTime) { }
@@ -26,7 +26,7 @@ public class DemolishAction : ActionStack.Action
         }
 
         // Update hovered building each frame
-        Building hovered = m_system.GetBuildingAtMouse();
+        Building hovered = m_buildingSystem.GetBuildingAtMouse();
         if (hovered != m_hoveredBuilding)
         {
             ClearHighlight();
@@ -37,7 +37,7 @@ public class DemolishAction : ActionStack.Action
         // Confirm demolish
         if (Input.GetMouseButtonDown(0) && m_hoveredBuilding != null)
         {
-            m_system.DemolishBuilding(m_hoveredBuilding);
+            m_buildingSystem.DemolishBuilding(m_hoveredBuilding);
             m_hoveredBuilding = null;
             m_bIsDone = true;
         }
@@ -48,7 +48,10 @@ public class DemolishAction : ActionStack.Action
         ClearHighlight();
     }
 
-    public override bool IsDone() => m_bIsDone;
+    public override bool IsDone()
+    {
+        return m_bIsDone;
+    }
 
     private void SetHighlight(Building building)
     {

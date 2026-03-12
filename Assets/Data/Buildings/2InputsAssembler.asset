@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f03c134b9a3d544ba89583f5cb746c9, type: 3}
+  m_Name: 2InputsAssembler
+  m_EditorClassIdentifier: Assembly-CSharp::BuildingData
+  <Name>k__BackingField: Assembler (Two Input)
+  <Cost>k__BackingField: 1
+  <RequiredPlacedOnResources>k__BackingField: 00000000
+  <Model>k__BackingField: {fileID: 5903182614860497082, guid: ceccd915c11091042bae29baa1f49303, type: 3}
+  <LogicPrefab>k__BackingField: {fileID: 2608361402132888722, guid: 2c58d431beab3b249bb3352b9cb91db4, type: 3}
