@@ -12,9 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 221733568c4e1c740ad197a101b23765, type: 3}
   m_Name: IronPlate
   m_EditorClassIdentifier: Assembly-CSharp::RecipeData
+  <RecipeName>k__BackingField: Iron Plate
   <Inputs>k__BackingField:
   - ResourceType: 4
     Amount: 2
   <Output>k__BackingField:
     ResourceType: 6
     Amount: 1
+  <InputSprites>k__BackingField:
+  - {fileID: 21300000, guid: c701734b821291e498dc31ef0b5ffcc6, type: 3}
+  <OutputSprite>k__BackingField: {fileID: 21300000, guid: c5b9c5a065b7b5342af0dc6ad8c0fc5b, type: 3}

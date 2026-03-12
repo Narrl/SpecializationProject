@@ -8,6 +8,7 @@ public class GameManager : ActionStack.ActionBehavior
     [SerializeField] private BuildingSystem m_buildingSystem;
     [SerializeField] private Canvas m_canvas;
     [SerializeField] private GameObject m_pauseMenuUI;
+    [SerializeField] private GameObject m_buildingInfoPanelUI;
 
     private void Start()
     {
@@ -26,10 +27,14 @@ public class GameManager : ActionStack.ActionBehavior
         base.OnUpdate();
 
         Building hoveredBuilding = m_buildingSystem.GetBuildingAtMouse();
-        if (hoveredBuilding != null)
+        // Make it only work for the Processor building for now
+        if (hoveredBuilding != null && hoveredBuilding.GetComponentInChildren<Processor>() != null)
         {
-            // Show building info UI
-
+            if (Input.GetMouseButtonDown(0))
+            {
+                BuildingInfoPanel buildingInfoPanel = BuildingInfoPanel.Create(m_buildingInfoPanelUI, m_canvas.transform, hoveredBuilding);
+                ActionStack.Main.PushAction(buildingInfoPanel); 
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha1))

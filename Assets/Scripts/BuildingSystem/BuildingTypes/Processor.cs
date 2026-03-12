@@ -29,6 +29,7 @@ public class Processor : BuildingLogic, IResourceInput, IRecipeHolder
     public void SetRecipe(RecipeData recipe)
     {
         CurrentRecipe = recipe;
+        m_outputBuffer = 0;
     }
 
     public override void FactoryTick(float deltaTime)

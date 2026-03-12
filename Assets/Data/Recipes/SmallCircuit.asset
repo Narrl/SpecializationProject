@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 221733568c4e1c740ad197a101b23765, type: 3}
   m_Name: SmallCircuit
   m_EditorClassIdentifier: Assembly-CSharp::RecipeData
+  <RecipeName>k__BackingField: Small Circuit
   <Inputs>k__BackingField:
   - ResourceType: 6
     Amount: 2
@@ -20,3 +21,7 @@ MonoBehaviour:
   <Output>k__BackingField:
     ResourceType: 8
     Amount: 1
+  <InputSprites>k__BackingField:
+  - {fileID: 21300000, guid: c5b9c5a065b7b5342af0dc6ad8c0fc5b, type: 3}
+  - {fileID: 21300000, guid: 9512b4d16cd1c194fb067b42d100c7c0, type: 3}
+  <OutputSprite>k__BackingField: {fileID: 21300000, guid: 12717358d42fd9444a38f1c1be9f6489, type: 3}
