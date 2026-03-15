@@ -2,7 +2,10 @@ using Actions;
 using System;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+
+/// <summary>
+/// This is the UI class for the panel that shows the information of a building and allows you to change its recipe.
+/// </summary>
 
 public class BuildingInfoPanel : ActionStack.ActionBehavior
 {

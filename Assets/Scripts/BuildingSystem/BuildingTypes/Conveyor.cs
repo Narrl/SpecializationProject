@@ -45,7 +45,7 @@ public class Conveyor : BuildingLogic, IResourceInput
     {
         if (!m_item.HasValue) return;
 
-        if (TryPushAll(m_item.Value))
+        if (TryPushFromOutputs(m_item.Value))
         {
             Vector2Int targetGridPos = m_gridPos + m_building.Model.ShapeUnits[0].OutputDirections[0].ToVector();
             Vector3 targetPos = m_grid.GridToWorldPosition(targetGridPos) + new Vector3(0, 0.25f, 0);
@@ -55,7 +55,8 @@ public class Conveyor : BuildingLogic, IResourceInput
             
     }
 
-    // IResourceInput — checks that targetCell and fromDirection match one of our input shape units
+    // Iterates all input shape units and tries to deposit the resource if the fromDirection is valid.
+    // It also instantiates the visual for the resource on the conveyor if the deposit is successful.
     public bool TryDeposit(ResourceType type, Vector2Int targetCell, GridDirection fromDirection)
     {
         if (m_item.HasValue) return false;
@@ -84,7 +85,7 @@ public class Conveyor : BuildingLogic, IResourceInput
         return false;
     }
 
-    // Used by FactoryManager to determine sort order
+    // Used by FactoryManager to determine sort order.
     public Conveyor GetForwardConveyor()
     {
         foreach (var unit in m_building.Model.ShapeUnits)

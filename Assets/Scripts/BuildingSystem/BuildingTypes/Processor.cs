@@ -1,14 +1,13 @@
 using Mono.Cecil;
 using UnityEngine;
 
+/// <summary>
+/// This class represents a Processor building, which takes in resources according to a selected recipe and produces output resources.
+/// </summary>
+
 public class Processor : BuildingLogic, IResourceInput, IRecipeHolder
 {
     [SerializeField] private RecipeData[] m_availableRecipes;
-
-    //[SerializeField] private ResourceStruct[] m_inputStructs;
-
-    //[SerializeField] private ResourceType m_outputType;
-    //[SerializeField] private int m_outputAmount = 1;
 
     [SerializeField] private int m_maxOutputBuffer = 10;
 
@@ -34,15 +33,15 @@ public class Processor : BuildingLogic, IResourceInput, IRecipeHolder
 
     public override void FactoryTick(float deltaTime)
     {
-        bool hasInputs = true;
+        bool bHasInputs = true;
 
         foreach (var inputStruct in CurrentRecipe.Inputs)
         {
             if (m_input.GetAmount(inputStruct.ResourceType) < inputStruct.Amount)
-                hasInputs = false;
+                bHasInputs = false;
         }
 
-        if (hasInputs && m_outputBuffer < m_maxOutputBuffer)
+        if (bHasInputs && m_outputBuffer < m_maxOutputBuffer)
         {
             foreach (var inputStruct in CurrentRecipe.Inputs)
             {
@@ -54,22 +53,22 @@ public class Processor : BuildingLogic, IResourceInput, IRecipeHolder
 
         while (m_outputBuffer > 0)
         {
-            if (!TryPushAll(CurrentRecipe.Output.ResourceType)) break;
+            if (!TryPushFromOutputs(CurrentRecipe.Output.ResourceType)) break;
             m_outputBuffer--;
         }
     }
 
-    // IResourceInput — checks that targetCell and fromDirection match one of our input shape units
+    // Iterates all input shape units and tries to deposit the resource if the fromDirection is valid.
     public bool TryDeposit(ResourceType type, Vector2Int targetCell, GridDirection fromDirection)
     {
-        bool isValidType = false;
+        bool bIsValidType = false;
 
         foreach (var inputStruct in CurrentRecipe.Inputs)
         {
-            if (type == inputStruct.ResourceType) isValidType = true;
+            if (type == inputStruct.ResourceType) bIsValidType = true;
         }
 
-        if (!isValidType) return false;
+        if (!bIsValidType) return false;
 
         foreach (var unit in m_building.Model.ShapeUnits)
         {

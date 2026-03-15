@@ -1,6 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This class is the main manager for the building system that creates the previews, the buildings, and handles demolition.
+/// </summary>
+
 public class BuildingSystem : MonoBehaviour
 {
     public const float CellSize = 1f;
@@ -13,6 +17,8 @@ public class BuildingSystem : MonoBehaviour
     public BuildingData[] BuildingDatas => m_buildingDatas;
     public BuildingGrid Grid => m_grid;
 
+    #region Getters
+
     public Vector3 GetMouseWorldPosition()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -22,7 +28,6 @@ public class BuildingSystem : MonoBehaviour
         return Vector3.zero;
     }
 
-    // Returns the building on whichever grid cell the mouse is hovering, or null
     public Building GetBuildingAtMouse()
     {
         Vector3 mouseWorld = GetMouseWorldPosition();
@@ -30,12 +35,9 @@ public class BuildingSystem : MonoBehaviour
         return m_grid.GetBuildingAt(gridPos);
     }
 
-    public void DemolishBuilding(Building building)
-    {
-        if (building == null) return;
-        m_grid.ClearBuilding(building);
-        Destroy(building.gameObject);
-    }
+    #endregion
+
+    #region Preview Handling
 
     public BuildingPreview CreatePreview(BuildingData data, Vector3 position)
     {
@@ -69,6 +71,10 @@ public class BuildingSystem : MonoBehaviour
         return bCanBuild;
     }
 
+    #endregion
+
+    #region Building Handling
+
     public void PlaceFromPreview(BuildingPreview preview, List<Vector3> buildPositions)
     {
         Building building = Instantiate(m_buildingPrefab, preview.transform.position, Quaternion.identity);
@@ -76,4 +82,13 @@ public class BuildingSystem : MonoBehaviour
         building.Setup(preview.Data, preview.Model.Rotation, m_grid);
         Destroy(preview.gameObject);
     }
+
+    public void DemolishBuilding(Building building)
+    {
+        if (building == null) return;
+        m_grid.ClearBuilding(building);
+        Destroy(building.gameObject);
+    }
+
+    #endregion
 }

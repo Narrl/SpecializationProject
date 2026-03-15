@@ -1,9 +1,11 @@
 using System;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
+
+/// <summary>
+/// This is the UI class for one of the buttons that allows you to change the recipe of a building.
+/// </summary>
 
 public class ChooseRecipeUI : MonoBehaviour
 {

@@ -1,6 +1,10 @@
 using System;
 using UnityEngine;
 
+/// <summary>
+/// This class represents a Storage building that can accept resources and store them in an internal buffer.
+/// </summary>
+
 public class Storage : BuildingLogic, IResourceInput
 {
     [SerializeField] private int m_maxOutputBuffer = 100;
@@ -13,7 +17,7 @@ public class Storage : BuildingLogic, IResourceInput
         {
             if (m_input.GetAmount(resourceType) > 0)
             {
-                if (TryPushAll(resourceType)) 
+                if (TryPushFromOutputs(resourceType)) 
                 {
                     m_input.TryRemove(resourceType, 1);
                 }
@@ -21,7 +25,7 @@ public class Storage : BuildingLogic, IResourceInput
         }
     }
 
-    // IResourceInput — checks that targetCell and fromDirection match one of our input shape units
+    // Iterates all input shape units and tries to deposit the resource if the fromDirection is valid.
     public bool TryDeposit(ResourceType type, Vector2Int targetCell, GridDirection fromDirection)
     {
         foreach (var unit in m_building.Model.ShapeUnits)

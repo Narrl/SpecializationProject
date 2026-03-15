@@ -1,7 +1,11 @@
 using Actions;
-using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+
+/// <summary>
+/// This is an ActionBehavior that manages the main menu UI, handling button interactions for starting the game, 
+/// opening the tutorial menu, and exiting the application.
+/// </summary>
 
 public class MainMenu : ActionStack.ActionBehavior
 {

@@ -1,5 +1,10 @@
 using UnityEngine;
 
+/// <summary>
+/// This is the base class for all building logic components. 
+/// Each building can have a BuildingLogic component that defines its behavior in the factory simulation.
+/// </summary>
+
 public abstract class BuildingLogic : MonoBehaviour, IFactoryTickable
 {
     protected Building m_building;
@@ -24,7 +29,7 @@ public abstract class BuildingLogic : MonoBehaviour, IFactoryTickable
 
     // Iterates all output shape units and tries to push one resource in each output direction.
     // Returns true if at least one push succeeded.
-    protected bool TryPushAll(ResourceType type)
+    protected bool TryPushFromOutputs(ResourceType type)
     {
         bool bAnyPushed = false;
 

@@ -1,6 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This class represents an instance of a building placed in the world, containing references to its model, data, and occupied grid cells.
+/// </summary>
+
 public class Building : MonoBehaviour
 {
     private BuildingModel m_model;
@@ -11,7 +15,6 @@ public class Building : MonoBehaviour
     private Material m_defaultMat;
 
     public string Name => m_data.Name;
-    public int Cost => m_data.Cost;
     public BuildingModel Model => m_model;
     public BuildingData Data => m_data;
     public List<Vector2Int> OccupiedCells => m_occupiedCells;

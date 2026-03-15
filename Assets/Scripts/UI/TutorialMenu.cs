@@ -1,6 +1,10 @@
 using UnityEngine;
 using Actions;
-using Unity.VisualScripting;
+
+/// <summary>
+/// This is an ActionBehavior that manages the tutorial menu, it only has functionality for the back button,
+/// which closes the menu when pressed.
+/// </summary>
 
 public class TutorialMenu : ActionStack.ActionBehavior
 {

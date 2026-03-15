@@ -1,6 +1,10 @@
 using UnityEngine;
 using Actions;
 
+/// <summary>
+/// This is an ActionBehavior that manages the overall game state, handling player input for building placement, demolition, and opening the pause menu.
+/// </summary>
+
 public class GameManager : ActionStack.ActionBehavior
 {
     private static GameManager sm_instance;

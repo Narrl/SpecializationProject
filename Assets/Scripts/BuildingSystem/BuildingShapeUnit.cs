@@ -34,6 +34,11 @@ public static class GridDirectionExtensions
     }
 }
 
+/// <summary>
+/// A building shape unit represents a single cell of a building's shape
+/// and contains information about which directions it pushes resources out to and accepts resources from.
+/// </summary>
+
 public class BuildingShapeUnit : MonoBehaviour
 {
     [Tooltip("Directions this cell pushes resources out to")]

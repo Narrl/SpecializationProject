@@ -6,6 +6,10 @@ public interface IFactoryTickable
     void FactoryTick(float deltaTime);
 }
 
+/// <summary>
+/// This class is the main manager for the factory simulation, responsible for ticking all factory-related logic at a fixed rate.
+/// </summary>
+
 public class FactoryManager : MonoBehaviour
 {
     [SerializeField] private float m_tickRate = 10.0f;
@@ -27,6 +31,8 @@ public class FactoryManager : MonoBehaviour
         sm_instance = this;
     }
 
+    #region Regular Building Handling
+
     public void Register(IFactoryTickable tickable)
     {
         if (tickable != null && !m_tickables.Contains(tickable))
@@ -37,6 +43,10 @@ public class FactoryManager : MonoBehaviour
     {
         m_tickables.Remove(tickable);
     }
+
+    #endregion
+
+    #region Conveyor Handling
 
     public void RegisterConveyor(Conveyor conveyor)
     {
@@ -53,14 +63,13 @@ public class FactoryManager : MonoBehaviour
         SortConveyors();
     }
 
-    // Sort conveyors so chain-ends are ticked first, working backwards up each chain.
-    // This means when a conveyor ticks, the one ahead of it has already cleared space.
+    // Here I sort conveyors so that the end of a conveyor chain is ticked first,
+    // solving the problem of items being pushed multiple times in a single tick for example.
     public void SortConveyors()
     {
         List<Conveyor> sorted = new List<Conveyor>();
         HashSet<Conveyor> remaining = new HashSet<Conveyor>(m_conveyors);
 
-        // Keep adding conveyors whose forward neighbor is already sorted (or not a conveyor)
         bool bMadeProgress = true;
         while (bMadeProgress && remaining.Count > 0)
         {
@@ -77,12 +86,13 @@ public class FactoryManager : MonoBehaviour
             }
         }
 
-        // Any remaining conveyors are part of a loop — just append them
         sorted.AddRange(remaining);
 
         m_conveyors.Clear();
         m_conveyors.AddRange(sorted);
     }
+
+    #endregion
 
     private void Update()
     {
@@ -93,11 +103,11 @@ public class FactoryManager : MonoBehaviour
 
         if (m_accumulator >= tickInterval)
         {
-            // Regular buildings first (excavators, processors)
+            // Regular buildings first (excavators, processors etc.)
             for (int i = 0; i < m_tickables.Count; i++)
                 m_tickables[i].FactoryTick(tickInterval);
 
-            // Conveyors ticked end-first so pushing cascades cleanly
+            // Then conveyors, in sorted order
             for (int i = 0; i < m_conveyors.Count; i++)
                 m_conveyors[i].FactoryTick(tickInterval);
 

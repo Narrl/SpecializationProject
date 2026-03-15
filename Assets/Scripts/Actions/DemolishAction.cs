@@ -1,6 +1,10 @@
 using Actions;
 using UnityEngine;
 
+/// <summary>
+/// This action handles the process of demolishing a building in the world.
+/// </summary>
+
 public class DemolishAction : ActionStack.Action
 {
     private readonly BuildingSystem m_buildingSystem;

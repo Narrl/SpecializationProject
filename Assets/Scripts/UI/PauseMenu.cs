@@ -2,6 +2,12 @@ using UnityEngine;
 using Actions;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// This is an ActionBehavior that manages the pause menu state, 
+/// handling player input for resuming the game or going back to the main menu. 
+/// It also pauses the game time while active.
+/// </summary>
+
 public class PauseMenu : ActionStack.ActionBehavior
 {
     private bool m_bIsDone = false;

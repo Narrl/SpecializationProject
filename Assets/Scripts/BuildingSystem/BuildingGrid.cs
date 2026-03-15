@@ -16,6 +16,10 @@ public struct ResourceVisualEntry
     public GameObject VisualPrefab;
 }
 
+/// <summary>
+/// This class manages the grid system for building placement, tracking which cells are occupied by buildings and which contain resources.
+/// </summary>
+
 public class BuildingGrid : MonoBehaviour
 {
     [SerializeField] private int m_width;
@@ -77,26 +81,6 @@ public class BuildingGrid : MonoBehaviour
         }
     }
 
-    public Building GetBuildingAt(Vector2Int gridPos)
-    {
-        if (!IsWithinBounds(gridPos)) return null;
-        return m_grid[gridPos.x, gridPos.y].Building;
-    }
-
-    public ResourceType GetResourceAt(Vector2Int gridPos)
-    {
-        if (!IsWithinBounds(gridPos)) return ResourceType.None;
-        return m_grid[gridPos.x, gridPos.y].ResourceType;
-    }
-
-    public T GetLogicAt<T>(Vector2Int gridPos) where T : class
-    {
-        if (!IsWithinBounds(gridPos)) return null;
-        Building building = m_grid[gridPos.x, gridPos.y].Building;
-        if (building == null) return null;
-        return building.GetComponentInChildren<T>();
-    }
-
     public bool CanPlaceBuilding(ResourceType[] requiredResourceTypes, List<Vector3> allBuildingPositions)
     {
         int validPlacementCount = 0;
@@ -118,6 +102,28 @@ public class BuildingGrid : MonoBehaviour
         return validPlacementCount > 0;
     }
 
+    #region Getters
+
+    public Building GetBuildingAt(Vector2Int gridPos)
+    {
+        if (!IsWithinBounds(gridPos)) return null;
+        return m_grid[gridPos.x, gridPos.y].Building;
+    }
+
+    public ResourceType GetResourceAt(Vector2Int gridPos)
+    {
+        if (!IsWithinBounds(gridPos)) return ResourceType.None;
+        return m_grid[gridPos.x, gridPos.y].ResourceType;
+    }
+
+    public T GetLogicAt<T>(Vector2Int gridPos) where T : class
+    {
+        if (!IsWithinBounds(gridPos)) return null;
+        Building building = m_grid[gridPos.x, gridPos.y].Building;
+        if (building == null) return null;
+        return building.GetComponentInChildren<T>();
+    }
+
     public Vector3 GetSnappedCenterPosition(List<Vector3> allBuildingPositions)
     {
         List<int> xs = allBuildingPositions.Select(pos => Mathf.FloorToInt(pos.x)).ToList();
@@ -126,6 +132,10 @@ public class BuildingGrid : MonoBehaviour
         float centerZ = (zs.Min() + zs.Max()) / 2f + BuildingSystem.CellSize / 2f;
         return new Vector3(centerX, 0, centerZ);
     }
+
+    #endregion
+
+    #region Helper Functions
 
     public bool IsWithinBounds(Vector2Int gridPos)
     {
@@ -146,6 +156,10 @@ public class BuildingGrid : MonoBehaviour
         return new Vector3(x, 0, z);
     }
 
+    #endregion
+
+    #region Gizmos
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
@@ -165,7 +179,13 @@ public class BuildingGrid : MonoBehaviour
             Gizmos.DrawLine(start, end);
         }
     }
+
+    #endregion
 }
+
+/// <summary>
+/// This class represents a single cell in the building grid, which can either be empty or occupied by a building, and can also contain a resource type.
+/// </summary>
 
 public class BuildingGridCell
 {

@@ -2,6 +2,11 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+/// <summary>
+/// This class represents the visual model of a building, that has a reference to its building shape units
+/// and to a wrapper transform that can be rotated to rotate the building.
+/// </summary>
+
 public class BuildingModel : MonoBehaviour
 {
     [SerializeField] private Transform m_wrapper;

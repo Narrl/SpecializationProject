@@ -1,6 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This class represents a visual preview of a building that the player can see while placing a building in the world. 
+/// It can change its material to indicate whether the current placement position is valid or not, and it can be rotated to show the building's orientation. 
+/// It contains references to the building data and model for easy access during placement logic.
+/// </summary>
+
 public class BuildingPreview : MonoBehaviour
 {
     public enum PreviewState
